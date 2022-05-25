@@ -2,8 +2,9 @@ import pokemonArray from "./data/pokemon.js";
 
 const cardContainer = document.querySelector(".card-container");
 const body = document.querySelector("body");
-const pokemonCards = document.getElementsByClassName("card");
-const search = document.querySelector
+
+const search = document.querySelector("#search");
+const searchBy = document.querySelector("#search-by");
 
 
 const getCardHTML = (pokemon) => {
@@ -20,7 +21,31 @@ const getCardHTML = (pokemon) => {
 }
 
 const onSearchChange = (event) => {
-    
+    if (searchBy.options[searchBy.selectedIndex].text === "Name") {
+        pokemons.forEach((pokemon) => {
+            if (pokemon.obj.name.includes(event.target.value)) {
+                pokemon.htmlCard.style.display = "";
+            } else {
+                pokemon.htmlCard.style.display = "none";
+            }
+        })
+    } else if (searchBy.options[searchBy.selectedIndex].text === "ID Number") {
+        pokemons.forEach((pokemon) => {
+            if (pokemon.obj.id.toString().includes(event.target.value)) {
+                pokemon.htmlCard.style.display = "";
+            } else {
+                pokemon.htmlCard.style.display = "none";
+            }
+        })
+    } else {
+        pokemons.forEach((pokemon) => {
+            if (pokemon.obj.types.join(' ').includes(event.target.value)) {
+                pokemon.htmlCard.style.display = "";
+            } else {
+                pokemon.htmlCard.style.display = "none";
+            }
+        })
+    }
 }
 
 
@@ -30,16 +55,25 @@ const onSearchChange = (event) => {
 
 //generate cards
 
+
+
 const pokemons = [];
+pokemonArray.forEach((pokemon) => cardContainer.innerHTML += getCardHTML(pokemon));
+
+const pokemonCards = document.querySelectorAll(".card");
+
 pokemonArray.forEach((pokemon, index) => {
-    cardContainer.innerHTML += getCardHTML(pokemon);
     const pokemonData = { 
         obj: pokemon,
-        cardIndex: index
+        htmlCard: pokemonCards[index]
     }
     pokemons.push(pokemonData);
 });
 
-pokemons.forEach((pokemon) => pokemonCards[pokemon.cardIndex].style.display = "none");
+pokemons.forEach((pokemon) => pokemon.htmlCard.style.display = "");
+
+search.addEventListener("input", onSearchChange);
+
+
 
 
