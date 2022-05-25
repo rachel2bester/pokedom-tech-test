@@ -5,6 +5,7 @@ const body = document.querySelector("body");
 
 const search = document.querySelector("#search");
 const searchBy = document.querySelector("#search-by");
+const numOfResults = document.querySelector("#num-of-results");
 
 
 const getCardHTML = (pokemon) => {
@@ -21,32 +22,26 @@ const getCardHTML = (pokemon) => {
 }
 
 const onSearchChange = (event) => {
-    if (searchBy.options[searchBy.selectedIndex].text === "Name") {
-        pokemons.forEach((pokemon) => {
-            if (pokemon.obj.name.includes(event.target.value)) {
-                pokemon.htmlCard.style.display = "";
-            } else {
-                pokemon.htmlCard.style.display = "none";
-            }
-        })
-    } else if (searchBy.options[searchBy.selectedIndex].text === "ID Number") {
-        pokemons.forEach((pokemon) => {
-            if (pokemon.obj.id.toString().includes(event.target.value)) {
-                pokemon.htmlCard.style.display = "";
-            } else {
-                pokemon.htmlCard.style.display = "none";
-            }
-        })
-    } else {
-        pokemons.forEach((pokemon) => {
-            if (pokemon.obj.types.join(' ').includes(event.target.value)) {
-                pokemon.htmlCard.style.display = "";
-            } else {
-                pokemon.htmlCard.style.display = "none";
-            }
-        })
-    }
+
+    pokemons.forEach((pokemon) => {
+        let attribute = null;
+        if (searchBy.options[searchBy.selectedIndex].text === "Name") {
+            attribute = pokemon.obj.name;
+        } else if (searchBy.options[searchBy.selectedIndex].text === "ID Number") {
+            attribute = pokemon.obj.id.toString();
+        } else if (searchBy.options[searchBy.selectedIndex].text === "Type") {
+            attribute = pokemon.obj.types.join(' ');
+        }
+        
+        if (attribute.includes(event.target.value)) {
+            pokemon.htmlCard.style.display = "";
+        } else {
+            pokemon.htmlCard.style.display = "none";
+        }
+    })
 }
+
+
 
 
 //insert form after h1
@@ -54,13 +49,10 @@ const onSearchChange = (event) => {
 //body.innerHTML
 
 //generate cards
-
-
-
-const pokemons = [];
 pokemonArray.forEach((pokemon) => cardContainer.innerHTML += getCardHTML(pokemon));
 
 const pokemonCards = document.querySelectorAll(".card");
+const pokemons = [];
 
 pokemonArray.forEach((pokemon, index) => {
     const pokemonData = { 
