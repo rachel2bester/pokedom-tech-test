@@ -3,6 +3,8 @@ import pokemonArray from "./data/pokemon.js";
 const cardContainer = document.querySelector(".card-container");
 const body = document.querySelector("body");
 const pokemonCards = document.getElementsByClassName("card");
+const search = document.querySelector
+
 
 const getCardHTML = (pokemon) => {
     const capitalisedName = pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1);
@@ -17,6 +19,10 @@ const getCardHTML = (pokemon) => {
     `;
 }
 
+const onSearchChange = (event) => {
+    
+}
+
 
 //insert form after h1
 
@@ -29,16 +35,11 @@ pokemonArray.forEach((pokemon, index) => {
     cardContainer.innerHTML += getCardHTML(pokemon);
     const pokemonData = { 
         obj: pokemon,
-        htmlElement: pokemonCards[index]
+        cardIndex: index
     }
     pokemons.push(pokemonData);
 });
 
+pokemons.forEach((pokemon) => pokemonCards[pokemon.cardIndex].style.display = "none");
 
-pokemons[2].htmlElement.innerHTML = "";
-
-
-
-//pokemonCards.forEach((pokemon) => console.log(pokemon))
-console.log(pokemonCards);
 
